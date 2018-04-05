@@ -3,12 +3,16 @@
 :- dynamic punkty/2.
 :- dynamic koniec/1.
 :- dynamic wybrana/2.
-:-(clause(cechy(_),_); consult('baza.pl')).  
+:-(clause(cechy(_,_),_); consult('baza.pl')).  
 
 start:-
-	nl,nl,
-	jaka_ksiazka,
-	read(Odp).
+	write('Witaj w aplikacji rekomenduj¹cej ksi¹¿ki, opowiedz mi coœ o swoich preferencjach.'), nl,
+	write('Je¿eli lubisz dan¹ cechê ksi¹¿ki napisz "t", je¿eli nie lubisz napisz "n",'), nl,
+	write('je¿eli jest ci to obojêtne napisz "o", a je¿eli znudzi ci siê odpowiadanie na'), nl,
+	write('pytania wybierz k. W momencie zakoczenia odpowiadania na pytania wyœwietlona zostanie'),nl,
+	write('ksi¹¿ka która z pewnoœci¹ spe³ni twoje oczekiwania.'),nl,
+	write('----------------------------------------------------------------------------'),nl,
+	jaka_ksiazka.
 start:-
 	wypisz_co_lubi.
 start:-
@@ -24,17 +28,16 @@ start:-
 start:-
 	funkcja_init_2.
 start:-
-	nl,funkcja.
+	nl,wybierz_najlepsza.
 start:-
-	nl,funkcja2.
+	nl,wypisz_najlepsza.
 
 
 	
-jaka_ksiazka:-
-	cechy(X),					%sprawdza cechy 
+jaka_ksiazka:-					
+	cechy(X,Y),					%sprawdza cechy 
 	not(koniec(tak)),			%jezeli koniec to nie pojdzie dalej
-	write('czy lubisz t/n/o/k '),
-	write(X),nl,
+	write('Czy lubisz '), write(Y), write('?'), nl,
 	read(Odp),
 	decyzja(Odp, X),
 	nl, fail.
@@ -98,7 +101,7 @@ funkcja_init_2:-
 	assertz(wybrana(wiedzmin, Pkt)),
 	fail.
 
-funkcja:-
+wybierz_najlepsza:-
 	punkty(Tytul, Pkt),
 	wybrana(X, P),
 	Pkt > P,
@@ -107,11 +110,12 @@ funkcja:-
 	fail.
 	
 	
-funkcja2:-
-	wybrana(X, Y),
+wypisz_najlepsza:-
+	wybrana(X, Pkt),
+	ksiazka(X, Nazwa),
 	write('Powinieneœ przeczytaæ '),
-	write(X), write(', ksi¹¿ka ta zdoby³a '), write(Y),
-	Procent is (Y*100)/8,
+	write(Nazwa), write(', ksi¹¿ka/seria ta zdoby³a '), write(Pkt),
+	Procent is (Pkt*100)/14,
 	write(' punktów. Na '), write(Procent), write('% Ci siê spodoba!'),
 	nl,nl, halt.
 	
