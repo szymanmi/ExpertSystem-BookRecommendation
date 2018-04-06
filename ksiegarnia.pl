@@ -24,6 +24,8 @@ start:-
 start:-
 	funkcja_licznik2.
 start:-
+	funckja_uwzglednij_ocene.
+start:-
 	nl,funkcja_wypisz_pkt.
 start:-
 	funkcja_init_2.
@@ -69,8 +71,9 @@ wypisz_co_nie_lubi:-
 
 funkcja_init:-
 	cecha(Tytul, X),
+	ile_cech(Tytul, Ile),
 	not(punkty(Tytul, _)),
-	assertz(punkty(Tytul, 4)),
+	assertz(punkty(Tytul, Ile)),
 	fail.
 	
 funkcja_licznik1:-
@@ -87,6 +90,14 @@ funkcja_licznik2:-
 	nielubi(X),
 	punkty(Tytul, Pkt),
 	Pkt_nowe is Pkt - 1,
+	retract(punkty(Tytul, Pkt)),
+	assertz(punkty(Tytul, Pkt_nowe)),
+	fail.
+	
+funckja_uwzglednij_ocene:-
+	ocena(Tytul, Mnoznik),
+	punkty(Tytul, Pkt),
+	Pkt_nowe is Pkt * Mnoznik,
 	retract(punkty(Tytul, Pkt)),
 	assertz(punkty(Tytul, Pkt_nowe)),
 	fail.
@@ -113,10 +124,13 @@ wybierz_najlepsza:-
 wypisz_najlepsza:-
 	wybrana(X, Pkt),
 	ksiazka(X, Nazwa),
+	ile_cech(X, Cechy),
 	write('Powinieneœ przeczytaæ '),
-	write(Nazwa), write(', ksi¹¿ka/seria ta zdoby³a '), write(Pkt),
-	Procent is (Pkt*100)/14,
-	write(' punktów. Na '), write(Procent), write('% Ci siê spodoba!'),
+	write(Nazwa), 
+	%write(', ksi¹¿ka/seria ta zdoby³a '), write(Pkt),
+	%write(' na '), write(Cechy*2), write(' punktów.'), nl,
+	Procent is (Pkt*100)/(Cechy*4),
+	write('Na '), write(Procent), write('% Ci siê spodoba!'),
 	nl,nl, halt.
 	
 	
