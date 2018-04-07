@@ -25,8 +25,8 @@ start:-
 	funkcja_licznik2.
 start:-
 	funckja_uwzglednij_ocene.
-start:-
-	nl,funkcja_wypisz_pkt.
+%start:-
+%	nl,funkcja_wypisz_pkt.
 start:-
 	funkcja_init_2.
 start:-
@@ -102,10 +102,10 @@ funckja_uwzglednij_ocene:-
 	assertz(punkty(Tytul, Pkt_nowe)),
 	fail.
 	
-funkcja_wypisz_pkt:-
-	punkty(Tytul, Pkt),
-	write(Tytul), write(' '), write(Pkt), nl,
-	fail.
+%funkcja_wypisz_pkt:-
+%	punkty(Tytul, Pkt),
+%	write(Tytul), write(' '), write(Pkt), nl,
+%	fail.
 	
 funkcja_init_2:-
 	punkty(wiedzmin, Pkt),
@@ -126,15 +126,13 @@ wypisz_najlepsza:-
 	ksiazka(X, Nazwa),
 	ile_cech(X, Cechy),
 	write('Powinieneœ przeczytaæ '),
-	write(Nazwa), 
-	%write(', ksi¹¿ka/seria ta zdoby³a '), write(Pkt),
-	%write(' na '), write(Cechy*2), write(' punktów.'), nl,
+	write(Nazwa),
 	Procent is (Pkt*100)/(Cechy*4),
-	write('Na '), write(Procent), write('% Ci siê spodoba!'),
+	write(' Na '), write(Procent), write('% Ci siê spodoba!'),
 	nl,nl, halt.
 	
 	
-	% swipl --goal=start --stand_alone=true -o ksiegarnia.exe -c ksiegarnia.pl
+	
 	
 	
 	
